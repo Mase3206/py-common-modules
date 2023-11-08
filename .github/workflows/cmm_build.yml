@@ -16,8 +16,8 @@ jobs:
         run: ls
       - name: Install pyyaml and pyinstaller if they aren't already
         run: |
-          python3 dependencies.py $OS pyyaml
-          python3 dependencies.py $OS pyinstaller
+          python3 dependencies.py macos pyyaml
+          python3 dependencies.py macos pyinstaller
       - name: Prep directories and files
         run: |
           mkdir dist/
@@ -45,19 +45,19 @@ jobs:
         uses: actions/checkout@v4
       - name: Install pyyaml and pyinstaller if they aren't already
         run: |
-          python dependencies.py $OS pyyaml
-          python dependencies.py $OS pyinstaller
+          python dependencies.py linux pyyaml
+          python dependencies.py linux pyinstaller
       - name: Prep directories and files
         run: |
           mkdir dist/
-          mkdir dist/$OS/
-          cp cmm.py $DIST_PATH
-          cp dependencies.py $DIST_PATH
-          touch $DIST_PATH/installed.yml
-          cd $DIST_PATH
+          mkdir dist/linux/
+          cp cmm.py dist/linux/
+          cp dependencies.py dist/linux/
+          touch dist/linux/installed.yml
+          cd dist/linux
       - name: Build cmm.py
         run: pyinstaller --onefile cmm.py
-      - name: Move binary to $DIST_PATH and clean up
+      - name: Move binary to dist/linux/ and clean up
         run: |
           mv dist/cmm ./cmm
           rm -rf build
@@ -67,29 +67,33 @@ jobs:
     runs-on: windows-latest
     env:
       OS: windows
-      DIST_PATH: "dist\\$OS"
+      DIST_PATH: "dist\\windows"
     steps:
       - name: Clone repo to runner
         uses: actions/checkout@v4
       - name: Install pyyaml and pyinstaller if they aren't already
         shell: pwsh
         run: |
-          python dependencies.py ${env:OS} pyyaml
-          python dependencies.py ${env:OS} pyinstaller
+          python dependencies.py windows pyyaml
+          python dependencies.py windows pyinstaller
       - name: Prep directories and files
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path "dist"
-          New-Item -ItemType Directory -Path "dist\\$OS"
-          Copy-Item "cmm.py" $DIST_PATH
-          Copy-Item "dependencies.py" $DIST_PATH
-          Write-Output $DIST_PATH
-          New-Item -Path "$DIST_PATH\installed.yml" -ItemType File
-          Set-Location -Path $DIST_PATH
+          New-Item -ItemType Directory -Path "dist\\windows"
+          Copy-Item "cmm.py" dist\\windows
+          Copy-Item "dependencies.py" dist\\windows
+          Write-Output dist\\windows
+          New-Item -Path dist\\windows\\installed.yml" -ItemType File
+          Set-Location -Path dist\\windows
       - name: Build cmm.py
         shell: pwsh
         run: |
           pyinstaller --onefile cmm.py
+      - name: Move executable to dist/windows and clean up
+        shell: pwsh
+        run: |
+          Move-Item -Path "dist\\cmm.exe" -Destination ".\\cmm.exe"
           Remove-Item -Path "build" -Recurse
           Remove-Item -Path "dist" -Recurse
 ...
