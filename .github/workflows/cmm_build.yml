@@ -22,6 +22,7 @@ jobs:
         run: |
           mkdir dist/
           mkdir dist/$OS/
+          tree
           cp cmm.py $DIST_PATH/cmm.py
           cp dependencies.py $DIST_PATH/dependencies.py
           touch $DIST_PATH/installed.yml
