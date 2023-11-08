@@ -1,6 +1,6 @@
 ---
 name: CMM Builder
-run-name: build
+run-name: build-x86
 on: [push] #change this?
 
 jobs:
@@ -34,6 +34,11 @@ jobs:
           mv dist/cmm ./cmm
           rm -rf build
           rm -rf dist
+      - name: Save macOS binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: cmm-macos-amd64
+          path: ./cmm
   
   Build_on_Linux:
     runs-on: ubuntu-latest
@@ -62,6 +67,11 @@ jobs:
           mv dist/cmm ./cmm
           rm -rf build
           rm -rf dist
+      - name: Save Linux binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: cmm-linux-amd64
+          path: ./cmm
 
   Build_on_Windows:
     runs-on: windows-latest
@@ -84,7 +94,7 @@ jobs:
           Copy-Item "cmm.py" dist\\windows
           Copy-Item "dependencies.py" dist\\windows
           Write-Output dist\\windows
-          New-Item -Path dist\\windows\\installed.yml" -ItemType File
+          New-Item -Path "dist\\windows\\installed.yml" -ItemType File
           Set-Location -Path dist\\windows
       - name: Build cmm.py
         shell: pwsh
@@ -96,4 +106,9 @@ jobs:
           Move-Item -Path "dist\\cmm.exe" -Destination ".\\cmm.exe"
           Remove-Item -Path "build" -Recurse
           Remove-Item -Path "dist" -Recurse
+      - name: Save Windows binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: cmm-windows-x86_64
+          path: ./cmm.exe
 ...
