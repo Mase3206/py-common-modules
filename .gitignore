@@ -2,4 +2,4 @@ env/
 build/
 dist/
 *.spec
-cmm
+cmm*
