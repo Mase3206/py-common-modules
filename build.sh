@@ -32,10 +32,6 @@ echo "Building $script_name..."
 pyinstaller --onefile "$script_name.py"
 echo "Done."
 
-echo "Moving $script_name from dist to current directory..."
-mv "./dist/$script_name" "./$script_name"
-echo "Done."
-
 echo "Setting permissions..."
 chmod a+x "./$script_name"
 echo "Done."
