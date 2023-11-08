@@ -22,8 +22,8 @@ jobs:
         run: |
           mkdir dist/
           mkdir dist/$OS/
-          cp cmm.py $DIST_PATH
-          cp dependencies.py $DIST_PATH
+          cp cmm.py $DIST_PATH/cmm.py
+          cp dependencies.py $DIST_PATH/dependencies.py
           touch $DIST_PATH/installed.yml
           cd $DIST_PATH
       - name: Build cmm.py
