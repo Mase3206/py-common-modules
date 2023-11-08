@@ -1,0 +1,64 @@
+---
+name: Common Module Manager (CMM) Builder for macOS, Linux, and Windows
+run-name: Building CMM for macOS, Linux, and Windows
+on: [push] #change this?
+
+env:
+  ROOT_PATH: "${{ github.workspace }}"
+  DIST_PATH: "$ROOT_PATH/dist/$OS"
+
+jobs:
+  Build_on_macOS:
+    runs-on: macos-latest
+    env:
+      OS: macos
+    steps:
+      - name: Install pyyaml and pyinstaller if they aren't already
+        run: python3 dependencies.py $OS ['pyyaml', 'pyinstaller']
+      - name: Prep directories and files
+        run: |
+          mkdir $DIST_PATH
+          cp $ROOT_PATH/cmm.py $DIST_PATH
+          cp $ROOT_PATH/dependencies.py $DIST_PATH
+          'echo "dependencies: 0.0" > $DIST_PATH/installed.yml'
+          cd $DIST_PATH
+      - name: Build cmm.py
+        run: pyinstaller --onefile cmm.py
+  
+  Build_on_Linux:
+    runs-on: ubuntu-latest
+    env:
+      OS: linux
+    steps:
+      - name: Install pyyaml and pyinstaller if they aren't already
+        run: python dependencies.py $OS ['pyyaml', 'pyinstaller']
+      - name: Prep directories and files
+        run: |
+          mkdir $DIST_PATH
+          cp $ROOT_PATH/cmm.py $DIST_PATH
+          cp $ROOT_PATH/dependencies.py $DIST_PATH
+          'echo "dependencies: 0.0" > $DIST_PATH/installed.yml'
+          cd $DIST_PATH
+      - name: Build cmm.py
+        run: pyinstaller --onefile cmm.py
+
+  Build_on_Windows:
+    runs-on: windows-latest
+    env:
+      OS: windows
+    steps:
+      - name: Install pyyaml and pyinstaller if they aren't already
+        shell: pwsh
+        run: python3 dependencies.py ${env:OS} ['pyyaml', 'pyinstaller']
+      - name: Prep directories and files
+        shell: pwsh
+        run: |
+          New-Item -Path "${env:ROOT_PATH}/dist" -Name "${env:OS}" -ItemType Directory 
+          cp ${env:ROOT_PATH}/cmm.py ${env:DIST_PATH}
+          cp ${env:ROOT_PATH}/dependencies.py ${env:DIST_PATH}
+          'Set-Content -Path "${env:DIST_PATH}\installed.yml" -Value "dependencies: 0.0"'
+          cd $DIST_PATH
+      - name: Build cmm.py
+        shell: pwsh
+        run: pyinstaller --onefile cmm.py
+...
