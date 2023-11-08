@@ -21,15 +21,15 @@ jobs:
       - name: Prep directories and files
         run: |
           mkdir dist/
-          mkdir dist/$OS/
-          ls; ls dist; ls dist/$OS
-          cp cmm.py $DIST_PATH/cmm.py
-          cp dependencies.py $DIST_PATH/dependencies.py
-          touch $DIST_PATH/installed.yml
-          cd $DIST_PATH
+          mkdir dist/macos/
+          ls; ls dist; ls dist/macos/
+          cp cmm.py dist/macos/
+          cp dependencies.py dist/macos/
+          touch dist/macos/installed.yml
+          cd dist/macos
       - name: Build cmm.py
         run: pyinstaller --onefile cmm.py
-      - name: Move binary to $DIST_PATH and clean up
+      - name: Move binary to dist/macos and clean up
         run: |
           mv dist/cmm ./cmm
           rm -rf build
