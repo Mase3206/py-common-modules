@@ -1,6 +1,6 @@
 ---
 name: Common Module Manager (CMM) Builder for macOS, Linux, and Windows
-run-name: Building CMM for macOS, Linux, and Windows
+run-name: Build CMM
 on: [push] #change this?
 
 env:
@@ -18,7 +18,9 @@ jobs:
       - name: List files
         run: ls $ROOT_PATH
       - name: Install pyyaml and pyinstaller if they aren't already
-        run: python3 dependencies.py $OS ['pyyaml', 'pyinstaller']
+        run: |
+          python3 dependencies.py $OS pyyaml
+          python3 dependencies.py $OS pyinstaller
       - name: Prep directories and files
         run: |
           mkdir $DIST_PATH
@@ -37,7 +39,9 @@ jobs:
       - name: Clone repo to runner
         uses: actions/checkout@v4
       - name: Install pyyaml and pyinstaller if they aren't already
-        run: python dependencies.py $OS ['pyyaml', 'pyinstaller']
+        run: |
+          python3 dependencies.py $OS pyyaml
+          python3 dependencies.py $OS pyinstaller
       - name: Prep directories and files
         run: |
           mkdir $DIST_PATH
@@ -57,7 +61,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Install pyyaml and pyinstaller if they aren't already
         shell: pwsh
-        run: python3 dependencies.py ${env:OS} ['pyyaml', 'pyinstaller']
+        run: |
+          python3 dependencies.py ${env:OS} pyyaml
+          python3 dependencies.py ${env:OS} pyinstaller
       - name: Prep directories and files
         shell: pwsh
         run: |
