@@ -13,10 +13,10 @@ jobs:
     env:
       OS: macos
     steps:
+      - name: Clone repo to runner
+        uses: actions/checkout@v4
       - name: List files
-        run: |
-          ls
-          ls $ROOT_PATH
+        run: ls $ROOT_PATH
       - name: Install pyyaml and pyinstaller if they aren't already
         run: python3 dependencies.py $OS ['pyyaml', 'pyinstaller']
       - name: Prep directories and files
@@ -34,6 +34,8 @@ jobs:
     env:
       OS: linux
     steps:
+      - name: Clone repo to runner
+        uses: actions/checkout@v4
       - name: Install pyyaml and pyinstaller if they aren't already
         run: python dependencies.py $OS ['pyyaml', 'pyinstaller']
       - name: Prep directories and files
@@ -51,6 +53,8 @@ jobs:
     env:
       OS: windows
     steps:
+      - name: Clone repo to runner
+        uses: actions/checkout@v4
       - name: Install pyyaml and pyinstaller if they aren't already
         shell: pwsh
         run: python3 dependencies.py ${env:OS} ['pyyaml', 'pyinstaller']
