@@ -5,13 +5,13 @@ on: [push] #change this?
 
 env:
   ROOT_PATH: "${{ github.workspace }}"
-  DIST_PATH: "$ROOT_PATH/dist/$OS"
 
 jobs:
   Build_on_macOS:
     runs-on: macos-latest
     env:
       OS: macos
+      DIST_PATH: "$ROOT_PATH/dist/$OS/"
     steps:
       - name: Clone repo to runner
         uses: actions/checkout@v4
@@ -23,8 +23,8 @@ jobs:
           python3 dependencies.py $OS pyinstaller
       - name: Prep directories and files
         run: |
-          mkdir $ROOT_PATH/dist
-          mkdir $ROOT_PATH/dist/$OS
+          mkdir $ROOT_PATH/dist/
+          mkdir $ROOT_PATH/dist/$OS/
           cp $ROOT_PATH/cmm.py $DIST_PATH
           cp $ROOT_PATH/dependencies.py $DIST_PATH
           'echo "dependencies: 0.0" > $DIST_PATH/installed.yml'
@@ -36,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OS: linux
+      DIST_PATH: "$ROOT_PATH/dist/$OS/"
     steps:
       - name: Clone repo to runner
         uses: actions/checkout@v4
@@ -45,8 +46,8 @@ jobs:
           python3 dependencies.py $OS pyinstaller
       - name: Prep directories and files
         run: |
-          mkdir $ROOT_PATH/dist
-          mkdir $ROOT_PATH/dist/$OS
+          mkdir $ROOT_PATH/dist/
+          mkdir $ROOT_PATH/dist/$OS/
           cp $ROOT_PATH/cmm.py $DIST_PATH
           cp $ROOT_PATH/dependencies.py $DIST_PATH
           'echo "dependencies: 0.0" > $DIST_PATH/installed.yml'
@@ -58,6 +59,7 @@ jobs:
     runs-on: windows-latest
     env:
       OS: windows
+      DIST_PATH: "$ROOT_PATH\dist\$OS\\"
     steps:
       - name: Clone repo to runner
         uses: actions/checkout@v4
@@ -70,9 +72,9 @@ jobs:
         shell: pwsh
         run: |
           New-Item -Path "${env:ROOT_PATH}" -Name "dist" -ItemType Directory
-          New-Item -Path "${env:ROOT_PATH}/dist" -Name "${env:OS}" -ItemType Directory 
-          cp ${env:ROOT_PATH}/cmm.py ${env:DIST_PATH}
-          cp ${env:ROOT_PATH}/dependencies.py ${env:DIST_PATH}
+          New-Item -Path "${env:ROOT_PATH}\dist" -Name "${env:OS}" -ItemType Directory 
+          cp ${env:ROOT_PATH}\cmm.py ${env:DIST_PATH}
+          cp ${env:ROOT_PATH}\dependencies.py ${env:DIST_PATH}
           'Set-Content -Path "${env:DIST_PATH}\installed.yml" -Value "dependencies: 0.0"'
           cd $DIST_PATH
       - name: Build cmm.py
