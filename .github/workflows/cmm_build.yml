@@ -1,6 +1,6 @@
 ---
-name: Common Module Manager (CMM) Builder for macOS, Linux, and Windows
-run-name: Build CMM
+name: CMM Builder
+run-name: build
 on: [push] #change this?
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OS: linux
-      DIST_PATH: "$ROOT_PATH/dist/$OS/"
+      DIST_PATH: "dist/$OS/"
     steps:
       - name: Clone repo to runner
         uses: actions/checkout@v4
@@ -66,7 +66,7 @@ jobs:
     runs-on: windows-latest
     env:
       OS: windows
-      DIST_PATH: "dist\$OS"
+      DIST_PATH: "dist\\$OS"
     steps:
       - name: Clone repo to runner
         uses: actions/checkout@v4
@@ -79,7 +79,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path "dist"
-          New-Item -ItemType Directory -Path "dist\$OS"
+          New-Item -ItemType Directory -Path "dist\\$OS"
           Copy-Item "cmm.py" $DIST_PATH
           Copy-Item "dependencies.py" $DIST_PATH
           Write-Output $DIST_PATH
