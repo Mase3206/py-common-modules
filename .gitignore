@@ -1,5 +1,5 @@
 env/
 build/
-dist/
 *.spec
 cmm*
+**/*.DS_Store*
