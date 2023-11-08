@@ -23,7 +23,8 @@ jobs:
           python3 dependencies.py $OS pyinstaller
       - name: Prep directories and files
         run: |
-          mkdir $DIST_PATH
+          mkdir $ROOT_PATH/dist
+          mkdir $ROOT_PATH/dist/$OS
           cp $ROOT_PATH/cmm.py $DIST_PATH
           cp $ROOT_PATH/dependencies.py $DIST_PATH
           'echo "dependencies: 0.0" > $DIST_PATH/installed.yml'
@@ -44,7 +45,8 @@ jobs:
           python3 dependencies.py $OS pyinstaller
       - name: Prep directories and files
         run: |
-          mkdir $DIST_PATH
+          mkdir $ROOT_PATH/dist
+          mkdir $ROOT_PATH/dist/$OS
           cp $ROOT_PATH/cmm.py $DIST_PATH
           cp $ROOT_PATH/dependencies.py $DIST_PATH
           'echo "dependencies: 0.0" > $DIST_PATH/installed.yml'
@@ -67,6 +69,7 @@ jobs:
       - name: Prep directories and files
         shell: pwsh
         run: |
+          New-Item -Path "${env:ROOT_PATH}" -Name "dist" -ItemType Directory
           New-Item -Path "${env:ROOT_PATH}/dist" -Name "${env:OS}" -ItemType Directory 
           cp ${env:ROOT_PATH}/cmm.py ${env:DIST_PATH}
           cp ${env:ROOT_PATH}/dependencies.py ${env:DIST_PATH}
