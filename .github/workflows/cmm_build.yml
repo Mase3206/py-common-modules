@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-latest
     env:
       OS: macos
-      DIST_PATH: dist/$OS/
+      DIST_PATH: dist/$OS
     steps:
       - name: Clone repo to runner
         uses: actions/checkout@v4
