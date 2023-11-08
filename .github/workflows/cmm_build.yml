@@ -13,6 +13,10 @@ jobs:
     env:
       OS: macos
     steps:
+      - name: List files
+        run: |
+          ls
+          ls $ROOT_PATH
       - name: Install pyyaml and pyinstaller if they aren't already
         run: python3 dependencies.py $OS ['pyyaml', 'pyinstaller']
       - name: Prep directories and files
