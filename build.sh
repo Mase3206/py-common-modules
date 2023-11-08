@@ -42,5 +42,5 @@ echo "Done."
 
 echo ""
 if [ "$run" = 'run' ]; then
-	./cmm -u
+	./cmm -h
 fi
