@@ -35,16 +35,10 @@ parser.add_argument('--switch', action='store_true',
 # get os type
 nt = (True if os.name == 'nt' else 'unix')
 
-# clear screen
-def clearScreen():
-	os.system('cls' if nt == True else 'clear')
-clearScreen()
-
-
 
 def fetchVersions():
 	sys.stdout.flush()
-	sys.stdout.write('\nFetching versions file from GitHub...')
+	sys.stdout.write('Fetching versions file from GitHub...')
 	# fetch versions file
 	subprocess.call(
 		['wget', 'https://raw.githubusercontent.com/Mase3206/py-common-modules/main/versions.yml'], 
@@ -91,9 +85,9 @@ def update(module='all', quiet=False):
 			toUpdate.append(mod)
 		
 	if toUpdate == []:
-		print('\nAll modules are already up to date.') if not quiet else None
+		print('All modules are already up to date.') if not quiet else None
 	else:
-		print('\nModules to update:') if quiet else None
+		print('Modules to update:') if quiet else None
 
 		for mod in toUpdate:
 			print(f'{mod}: {installedVersions[mod]} => {versions[mod]}')
@@ -132,7 +126,7 @@ def install(module:str, quiet=False):
 
 
 	if installed == True:
-		proceed = input('\nModule already installed. Would you like to try to update it? [Y/n] ') if not quiet else 'y'
+		proceed = input('Module already installed. Would you like to try to update it? [Y/n] ') if not quiet else 'y'
 		if proceed == '' or proceed.lower() == 'y':
 			update(module)
 		else:
@@ -140,7 +134,7 @@ def install(module:str, quiet=False):
 		del proceed
 	else:
 		try:
-			proceed = input(f'\nFound {module} in GitHub repo. Would you like to install it? [Y/n] ') if not quiet else 'y'
+			proceed = input(f'Found {module} in GitHub repo. Would you like to install it? [Y/n] ') if not quiet else 'y'
 			if proceed == '' or proceed.lower() == 'y':
 				if not quiet:
 					sys.stdout.flush()
@@ -233,3 +227,10 @@ if packageToInstall != None:
 
 if packageToRemove != None:
 	remove(packageToRemove)
+
+
+while True:
+	try:
+		os.remove('wget-log*')
+	except:
+		break
