@@ -139,7 +139,7 @@ def install(module:str, quiet=False):
 				if not quiet:
 					sys.stdout.flush()
 					sys.stdout.write(f'Downloading {module}...')
-				subprocess.Popen(
+				subprocess.call(
 					['wget', 'https://raw.githubusercontent.com/Mase3206/py-common-modules/main/' + module + '.py'], 
 					stdout=subprocess.DEVNULL, 
 					stderr=subprocess.DEVNULL
@@ -207,7 +207,7 @@ def installMultiple(modules:list, quiet=True):
 	# In fact, it can't even be loud, at the moment.	
 	
 	for module in toInstall:
-		subprocess.Popen(
+		subprocess.call(
 			['wget', 'https://raw.githubusercontent.com/Mase3206/py-common-modules/main/' + module + '.py'], 
 			stdout=subprocess.DEVNULL, 
 			stderr=subprocess.DEVNULL
