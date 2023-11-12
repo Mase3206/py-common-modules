@@ -4,7 +4,7 @@ Modules I have made that I frequently use across multiple programs.
 
 # Common Module Manager (cmm)
 
-cmm is the custom module manager I made to install, remove, and update the modules in this repository. 
+Common Module Manager (CMM) is a basic package manager I made to install, remove, and update code I commonly use across many programs to centrally control installation and updates. 
 
 - `-u` updates all packages
 - `-i package` installs the specified package. If already installed, it attempts to update it.
@@ -23,6 +23,11 @@ If `build.sh` is run with the `-r` flag, it will rebuild the package by removing
 
 If `run` is added to the end of the command, it will test the binary it made by telling it to display its help page (`cmm -h`).
 
+# update.sh (mac/linux)
+
+**Usage:** `./update.sh`
+
+This simple updater tool
 
 # reformat
 
@@ -33,7 +38,7 @@ If `run` is added to the end of the command, it will test the binary it made by 
 
 `dependencies` receives modules from another Python program that it needs to run and, if they aren't installed, it installs them via `pip`. This can be called directly via the command line or via importing from another program.
 
-**Syntax:** `dependencies [-h] [os] [package]`
+**Usage:** `dependencies [-h] [os] [package]`
 
 Because macOS ships both Python 2 and 3, and just calling `python` will run Python 2, the os you are running is very important. Until I find a way for Python to make a distinction between generic Unix and specifically macOS, you must specify the OS as either "linux", "macos", or "windows".
 
