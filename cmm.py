@@ -54,9 +54,15 @@ def fetchVersions():
 	# remove versions file
 	os.remove('versions.yml')
 
+	try:
+		with open('installed.yml', 'r') as f1:
+			installedVersions = yaml.safe_load(f1)
+	except:
+		f1 = open('installed.yml', 'w+')
+		f1.close()
 
-	with open('installed.yml', 'r') as f1:
-		installedVersions = yaml.safe_load(f1)
+	if installedVersions == None:
+		installedVersions = {}
 
 	return versions, installedVersions
 
@@ -144,21 +150,23 @@ def install(module:str, quiet=False):
 					stdout=subprocess.DEVNULL, 
 					stderr=subprocess.DEVNULL
 				)
-				
-				if not quiet:
-					sys.stdout.write(f'\rDownloading {module}... done.\n')
-					sys.stdout.write(f'Adding {module} to installed.yml...')
-				installedVersions[module] = versions[module]
-				saveInstalledVersions(installedVersions)
-				if not quiet:
-					sys.stdout.write(f'\rAdding {module} to installed.yml... done.\n')
-					sys.stdout.flush()
-					print(f'Successfully installed {module}.')
+				del proceed
 			else:
-				print('Abort.') if not quiet else None
-			del proceed
+				exit('Abort.') if not quiet else None
+				del proceed
 		except:
 			print(f'Fetching {module} failed. Verify that it exists.') if not quiet else None		#TODO: maybe list the installable modules?
+
+		if not quiet:
+			sys.stdout.write(f'\rDownloading {module}... done.\n')
+			sys.stdout.write(f'Adding {module} to installed.yml...')
+		installedVersions[module] = versions[module]
+		saveInstalledVersions(installedVersions)
+		if not quiet:
+			sys.stdout.write(f'\rAdding {module} to installed.yml... done.\n')
+			sys.stdout.flush()
+			print(f'Successfully installed {module}.')
+
 			
 
 
