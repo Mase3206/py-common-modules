@@ -8,10 +8,10 @@
 			"name": "Python: Current File",
 			"type": "python",
 			"request": "launch",
-			"program": "${file}",
+			"program": "cmm.py",
 			"console": "integratedTerminal",
 			"justMyCode": true,
-			"args": ["macos", "pyyaml"]
+			"args": ["-i", "dependencies"]
 		}
 	]
 }
