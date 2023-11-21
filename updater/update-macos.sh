@@ -15,7 +15,7 @@ if [[ "/usr/local/var/cmm" -ne ]]; then
 	mkdir /usr/local/var/cmm
 fi
 
-
+# if version in /usr/local/var/cmm/version is less than latest release and user consents to update
 mkdir /private/tmp/cmm-update
 cd /private/tmp/cmm-update
 
