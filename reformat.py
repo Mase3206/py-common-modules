@@ -73,3 +73,54 @@ def assemble(options:list, settings:list):
 		options[i*2+1] = settings[i]
 
 	return options
+
+
+def subprocessPipeGet(command:list, lineNumber:int, listItem:int):
+	'''
+	This function runs the given command via subprocess.Popen(command, stdout=subprocess.PIPE) and returns a specific value as specified by lineNumber and listItem.
+
+	Parameters
+	----------
+	command : a list of strings to send to `subprocess.Popen()`. ex: ['echo', '"hi"']
+	lineNumber : the integer of the line number to grab the item from (counting up from 1)
+	listItem : the integer of the desired item in the line (counting up from 0); items are separated by a space.
+
+	Returns
+	-------
+	str : all returns are formatted as strings
+	'''
+
+	import subprocess
+
+	process = subprocess.Popen(command, stdout=subprocess.PIPE)
+
+	for i in range(lineNumber):
+		output = str(process.stdout.readline())
+
+
+	# do some output processing
+	# before = "b'/dev/tty1 /mnt/iventoy pxe.local 10.0.2.15'"
+	output = output.split(' ') 			# ["b'/dev/tty1", '/mnt/iventoy', 'pxe.local', "10.0.2.15'"]
+	item = output[listItem]				# "/mnt/iventoy"
+
+	# if the selected item is first in the line
+	if listItem == 0:							# "b'/dev/tty1"
+		tempItem = []
+		item = list(item)						# ['b', "'", '/', 'd', 'e', 'v', '/', 't', 't', 'y', '1']
+		for i in range(len(item)):
+			if i in [0,1]:
+				continue
+			tempItem = item.append(item[i])		# ['/', 'd', 'e', 'v', '/', 't', 't', 'y', '1']
+		item = ''.join(tempItem)				# "/dev/tty1"
+
+	# if the selected item is last in the line
+	elif listItem == len(output) - 1:			# "3084'"
+		tempItem = []
+		item = list(item)					# ["3", "0", "8", "4", "'"]
+		for i in range(len(item)):
+			if i == len(item) - 1:
+				continue
+			tempItem = item.append(item[i])		# ["3", "0", "8", "4"]
+		item = ''.join(tempItem)				# "3084"
+	
+	return str(item)
